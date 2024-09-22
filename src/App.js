@@ -1,47 +1,37 @@
-import './App.css';
-import {useEffect, useState} from 'react'
+import Stopwatch from './components/Stopwatch';
+import { useState } from 'react';
 
 function App() {
-  const [time, setTime] = useState(0)
-  const [running,setRunning] = useState(false)
-
-  useEffect(()=>{
-    let interval;
-    if(running){
-      interval = setInterval(()=>{
-        setTime((prev)=>prev+10)
-      },10)
-    }else if(!running){
-      clearInterval(interval)
-    }
-    return ()=> clearInterval(interval)
-  },[running])
-
+const [stopwatchList,setStopwatchList] = useState([])
+const [stopwatch,setStopwatch] = useState(false)
+const handleAddTask = (e) => {
+  e.preventDefault()
+  setStopwatchList([...stopwatchList, <Stopwatch/>])
+}
   return (
-    <div className=' flex flex-col items-center justify-center py-8'>
-      <h1 className='text-lg font-semibold pb-2'>Stopwatch</h1>
-      <div className='text-xl font-semibold'>
-        <span>{('0'+Math.floor((time/60000)%60)).slice(-2)}:</span>
-        <span>{('0'+Math.floor((time/1000)%60)).slice(-2)}:</span>
-        <span>{('0'+Math.floor((time/10)%100)).slice(-2)}:</span>
+    <div className='flex flex-col justify-center items-center pt-5 px-5 gap-3'>
+      <h1 className='font-semibold text-xl'>MASA</h1>
+      <blockquote className='font-thin italic'>By the ˹passage of˺ time! Surely humanity is in ˹grave˺ loss, except those who have faith, do good, and urge each other to the truth, and urge each other to perseverance.</blockquote>
+      <blockquote className='font-thin italic'>-The Holy Quran, 103:1</blockquote>
+
+      {/* Buttons */}
+      <div>
+
       </div>
-      <div className='flex flex-row justify-between'>
-        {running?
-        <button
-        className='border rounded py-2 px-2'
-        onClick={()=>setRunning(false)}>
-          Pause
-          </button>
-          :
-          <button
-          className='border rounded py-2 px-2'
-          onClick={()=>setRunning(true)}>
-            Start
-            </button>}
-        <button
-        className='border rounded py-2 px-2'
-        onClick={()=>setTime(0)}>
-          Restart</button>
+      <button
+      className='bg-blue-500 rounded-lg hover:bg-opacity-70 text-white py-2 px-3'
+      onClick={handleAddTask}
+      >+ Stopwatch</button>
+      <div className='grid grid-cols-3 justify-center items-center gap-3'>
+      {stopwatch
+      ?
+      <Stopwatch/>:null}
+      {stopwatchList.map((index)=>
+          <Stopwatch
+          key={index}
+          index={index}
+          />
+        )}
       </div>
     </div>
   );
