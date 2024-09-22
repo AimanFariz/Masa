@@ -1,12 +1,19 @@
 import Stopwatch from './components/Stopwatch';
 import { useState } from 'react';
+import Timer from './components/Timer';
 
 function App() {
 const [stopwatchList,setStopwatchList] = useState([])
+const [timerList,setTimerList] = useState([])
 const [stopwatch,setStopwatch] = useState(false)
-const handleAddTask = (e) => {
+const [timer, setTImer] = useState(false)
+const handleAddStopwatch = (e) => {
   e.preventDefault()
   setStopwatchList([...stopwatchList, <Stopwatch/>])
+}
+const handleAddTimer = (e) => {
+  e.preventDefault()
+  setTimerList([...timerList, <Timer/>])
 }
   return (
     <div className='flex flex-col justify-center items-center pt-5 px-5 gap-3'>
@@ -15,14 +22,20 @@ const handleAddTask = (e) => {
       <blockquote className='font-thin italic'>-The Holy Quran, 103:1</blockquote>
 
       {/* Buttons */}
-      <div>
-
+      <div className='flex flex-row gap-3'>
+        <button
+        className='bg-blue-500 rounded-lg hover:bg-opacity-70 text-white py-2 px-3'
+        onClick={handleAddStopwatch}
+        >+ Stopwatch
+        </button>
+        <button
+        className='bg-blue-500 rounded-lg hover:bg-opacity-70 text-white py-2 px-3'
+        onClick={handleAddTimer}
+        >+ Timer
+        </button>
       </div>
-      <button
-      className='bg-blue-500 rounded-lg hover:bg-opacity-70 text-white py-2 px-3'
-      onClick={handleAddTask}
-      >+ Stopwatch</button>
-      <div className='grid grid-cols-3 justify-center items-center gap-3'>
+      {/* Item display section */}
+      <section className='grid grid-cols-3 justify-center items-center gap-3'>
       {stopwatch
       ?
       <Stopwatch/>:null}
@@ -32,7 +45,16 @@ const handleAddTask = (e) => {
           index={index}
           />
         )}
-      </div>
+      {timer
+      ?
+      <Timer/>:null}
+      {timerList.map((index)=>
+          <Timer
+          key={index}
+          index={index}
+          />
+        )}
+      </section>
     </div>
   );
 }
